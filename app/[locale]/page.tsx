@@ -1,4 +1,5 @@
 "use client"
+
 import { IconArrowRight } from "@tabler/icons-react"
 import { useTheme } from "next-themes"
 import Link from "next/link"
@@ -11,7 +12,7 @@ export default function HomePage() {
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
         <img src="/SignalBadge.png" alt="Chatbot UI" style={{ width: '220px', height: 'auto' }} />
       </div>
-
+      
       <div className="mt-2 text-4xl font-bold">SignalBot UI</div>
 
       <Link

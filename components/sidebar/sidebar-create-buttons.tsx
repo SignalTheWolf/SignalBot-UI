@@ -60,10 +60,10 @@ export const SidebarCreateButtons: FC<SidebarCreateButtonsProps> = ({
           setIsCreatingPreset(true)
         }
 
-      case "prompts":
+      /* case "prompts":
         return async () => {
           setIsCreatingPrompt(true)
-        }
+        } */
 
       case "files":
         return async () => {

@@ -8,8 +8,8 @@ export default function HomePage() {
 
   return (
     <div className="flex size-full flex-col items-center justify-center">
-      <div>
-        <img src="/SignalBadge.png" alt="SignalBot UI" style={{ width: '220px', height: 'auto' }}
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        <img src="/SignalBadge.png" alt="Chatbot UI" style={{ width: '220px', height: 'auto' }} />
       </div>
 
       <div className="mt-2 text-4xl font-bold">SignalBot UI</div>

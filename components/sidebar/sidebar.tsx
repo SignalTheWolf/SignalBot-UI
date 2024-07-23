@@ -75,9 +75,9 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
             case "presets":
               return renderSidebarContent("presets", presets, presetFolders)
 
-            case "prompts":
+            /*case "prompts":
               return renderSidebarContent("prompts", prompts, promptFolders)
-
+*/
             case "files":
               return renderSidebarContent("files", files, filesFolders)
 

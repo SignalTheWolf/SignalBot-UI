@@ -169,6 +169,10 @@ export default async function Login({
       >
         <Brand />
 
+      <div>
+        <img src="/SignalBadge.png" alt="SignalBot UI" style={{ width: '220px', height: 'auto' }}
+      </div>
+
         <Label className="text-md mt-4" htmlFor="email">
           Email
         </Label>

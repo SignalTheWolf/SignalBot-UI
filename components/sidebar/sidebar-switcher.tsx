@@ -37,7 +37,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
     const fetchUserRole = async () => {
       if (profile) {
         const { data, error } = await supabase
-          .from<Profile>('profiles') // Table in the 'public' schema 
+          .from('profiles') // Table in the 'public' schema 
           .select('isAdmin') // Column in the 'profiles' table
           .eq('id', profile.id)
           .single()

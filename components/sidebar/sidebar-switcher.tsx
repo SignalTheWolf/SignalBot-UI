@@ -23,10 +23,6 @@ interface SidebarSwitcherProps {
   onContentTypeChange: (contentType: ContentType) => void
 }
 
-interface Profile {
-  isAdmin: boolean
-}
-
 export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
   onContentTypeChange
 }) => {
@@ -37,20 +33,15 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
     const fetchUserRole = async () => {
       if (profile) {
         const { data, error } = await supabase
-          .from('profiles') // Table in the 'public' schema 
-          .select('isAdmin') // Column in the 'profiles' table
+          .from('profiles') //table in the 'public' schema 
+          .select('isAdmin') //column in the 'profiles' table
           .eq('id', profile.id)
           .single()
 
         if (error) {
           console.error('Error fetching user role:', error.message)
-        } else {
-          console.log('Fetched data:', data) // Log the data to see what is returned
-          if (data && 'isAdmin' in data) { // Type guard to check if isAdmin exists in data
-            setIsAdmin(data.isAdmin)
-          } else {
-            console.error('isAdmin property is missing in the fetched data.')
-          }
+        } else if (data) {
+          setIsAdmin(data.isAdmin)
         }
       }
     }

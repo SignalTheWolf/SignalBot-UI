@@ -44,8 +44,10 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
 
         if (error) {
           console.error('Error fetching user role:', error.message)
-        } else if (data) {
-          setIsAdmin((data as Profile).isAdmin) // Use type assertion here
+        } else if (data && 'isAdmin' in data) {
+          setIsAdmin(data.isAdmin)
+        } else {
+          console.error('Error: isAdmin property is missing in the returned data.')
         }
       }
     }

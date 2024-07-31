@@ -32,13 +32,15 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
   useEffect(() => {
     const fetchUserRole = async () => {
       if (profile) {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('profiles') //table in the 'public' schema 
           .select('isAdmin') //column in the 'profiles' table
           .eq('id', profile.id)
           .single()
 
-        if (data) {
+        if (error) {
+          console.error('Error fetching user role:', error.message)
+        } else if (data) {
           setIsAdmin(data.isAdmin)
         }
       }

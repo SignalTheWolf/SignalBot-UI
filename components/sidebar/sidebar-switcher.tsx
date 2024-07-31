@@ -23,6 +23,10 @@ interface SidebarSwitcherProps {
   onContentTypeChange: (contentType: ContentType) => void
 }
 
+interface Profile {
+  isAdmin: boolean;
+}
+
 export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
   onContentTypeChange
 }) => {
@@ -33,8 +37,8 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
     const fetchUserRole = async () => {
       if (profile) {
         const { data, error } = await supabase
-          .from('profiles') // Table in the 'public' schema
-          .select('isAdmin') // Column in the 'profiles' table
+          .from<Profile>('profiles') // Specify the type of the table
+          .select('isAdmin')
           .eq('id', profile.id)
           .single()
 

@@ -32,16 +32,26 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
   useEffect(() => {
     const fetchUserRole = async () => {
       if (profile) {
-        const { data, error } = await supabase
-          .from('profiles') //table in the 'public' schema 
-          .select('isAdmin') //column in the 'profiles' table
-          .eq('id', profile.id)
-          .single()
+        try {
+          const { data, error } = await supabase
+            .from('profiles') // Table in the 'public' schema 
+            .select('isAdmin') // Column in the 'profiles' table
+            .eq('id', profile.id)
+            .single()
 
-        if (error) {
-          console.error('Error fetching user role:', error.message)
-        } else if (data) {
-          setIsAdmin(data.isAdmin)
+          if (error) {
+            console.error('Error fetching user role:', error.message)
+            console.error('Supabase error details:', error) // Log full error details
+          } else {
+            console.log('Fetched data:', data) // Log the entire data object
+            if (data && typeof data.isAdmin === 'boolean') {
+              setIsAdmin(data.isAdmin)
+            } else {
+              console.error('Unexpected data structure:', data)
+            }
+          }
+        } catch (err) {
+          console.error('Error in fetchUserRole function:', err)
         }
       }
     }

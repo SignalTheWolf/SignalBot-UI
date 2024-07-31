@@ -41,7 +41,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
         if (error) {
           console.error('Error fetching user role:', error.message)
         } else if (data) {
-          setIsAdmin(data.isAdmin)
+          setIsAdmin(data.Is_Admin)
         }
       }
     }

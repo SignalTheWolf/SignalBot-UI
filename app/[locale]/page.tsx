@@ -7,17 +7,6 @@ import Link from "next/link"
 export default function HomePage() {
   const { theme } = useTheme()
 
-  useEffect(() => {
-    // Set the default theme to light
-    const storedTheme = localStorage.getItem("theme")
-    if (!storedTheme) {
-      setTheme("light")
-      localStorage.setItem("theme", "light")
-    } else {
-      setTheme(storedTheme)
-    }
-  }, [setTheme])
-
   return (
     <div className="flex size-full flex-col items-center justify-center">
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>

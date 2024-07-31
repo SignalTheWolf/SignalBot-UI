@@ -116,7 +116,8 @@ BEGIN
         '',
         '',
         FALSE,
-        random_username
+        random_username,
+        FALSE
     );
 
     -- Create the home workspace for the new user

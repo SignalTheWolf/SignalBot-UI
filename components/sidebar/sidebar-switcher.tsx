@@ -26,7 +26,7 @@ interface SidebarSwitcherProps {
 export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
   onContentTypeChange
 }) => {
-  const [Is_Admin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const { profile } = useContext(ChatbotUIContext)
 
   useEffect(() => {
@@ -34,14 +34,14 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
       if (profile) {
         const { data, error } = await supabase
           .from('profiles') //table in the 'public' schema 
-          .select('Is_Admin') //column in the 'profiles' table
+          .select('isAdmin') //column in the 'profiles' table
           .eq('id', profile.id)
           .single()
 
         if (error) {
           console.error('Error fetching user role:', error.message)
         } else if (data) {
-          setIsAdmin(data.Is_Admin)
+          setIsAdmin(data.isAdmin)
         }
       }
     }
@@ -70,7 +70,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
           onContentTypeChange={onContentTypeChange}
         />
 
-        {Is_Admin && (
+        {isAdmin && (
           <>
             <SidebarSwitchItem
               icon={<IconAdjustmentsHorizontal size={SIDEBAR_ICON_SIZE} />}

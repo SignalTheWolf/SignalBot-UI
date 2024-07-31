@@ -42,7 +42,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
           console.error('Error fetching user role:', error.message)
         } else if (data) {
           console.log('Fetched data:', data); // Log the fetched data
-          setIsAdmin(data.isAdmin === true) // Ensure isAdmin is a boolean
+          setIsAdmin(data.profiles.isAdmin === true) // Ensure isAdmin is a boolean
         }
       }
     }

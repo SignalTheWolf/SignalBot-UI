@@ -34,7 +34,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
       if (profile) {
         try {
           const { data, error } = await supabase
-            .from('profiles') // Table in the 'public' schema 
+            .from('public.profiles') // Table in the 'public' schema 
             .select('isAdmin') // Column in the 'profiles' table
             .eq('id', profile.id)
             .single()

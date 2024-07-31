@@ -37,7 +37,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
     const fetchUserRole = async () => {
       if (profile) {
         const { data, error } = await supabase
-          .from('profiles') // No type argument here
+          .from('profiles')
           .select('isAdmin')
           .eq('id', profile.id)
           .single()
@@ -45,7 +45,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
         if (error) {
           console.error('Error fetching user role:', error.message)
         } else if (data && 'isAdmin' in data) {
-          setIsAdmin(data.isAdmin)
+          setIsAdmin((data as Profile).isAdmin)
         } else {
           console.error('Error: isAdmin property is missing in the returned data.')
         }

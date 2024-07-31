@@ -37,7 +37,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
     const fetchUserRole = async () => {
       if (profile) {
         const { data, error } = await supabase
-          .from<Profile>('profiles') // Specify the type of the table
+          .from('profiles') // No type argument here
           .select('isAdmin')
           .eq('id', profile.id)
           .single()
@@ -45,7 +45,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
         if (error) {
           console.error('Error fetching user role:', error.message)
         } else if (data) {
-          setIsAdmin(data.isAdmin)
+          setIsAdmin((data as Profile).isAdmin) // Use type assertion here
         }
       }
     }

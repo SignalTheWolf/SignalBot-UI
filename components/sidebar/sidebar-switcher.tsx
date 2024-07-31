@@ -26,27 +26,28 @@ interface SidebarSwitcherProps {
 export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
   onContentTypeChange
 }) => {
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [hasBio, setHasBio] = useState(false)
   const { profile } = useContext(ChatbotUIContext)
 
   useEffect(() => {
-    const fetchUserRole = async () => {
+    const fetchUserBio = async () => {
       if (profile) {
         const { data, error } = await supabase
-          .from('public.profiles') //table in the 'public' schema 
-          .select('isAdmin') //column in the 'profiles' table
+          .from('profiles') // Table in the 'public' schema 
+          .select('bio') // Column in the 'profiles' table
           .eq('id', profile.id)
           .single()
 
         if (error) {
-          console.error('Error fetching user role:', error.message)
+          console.error('Error fetching user bio:', error.message)
         } else if (data) {
-          setIsAdmin(data.isAdmin)
+          // Check if the bio field is not null and has text
+          setHasBio(!!data.bio && data.bio.trim().length > 0)
         }
       }
     }
 
-    fetchUserRole()
+    fetchUserBio()
   }, [profile])
 
   return (
@@ -70,7 +71,7 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
           onContentTypeChange={onContentTypeChange}
         />
 
-        {isAdmin && (
+        {hasBio && (
           <>
             <SidebarSwitchItem
               icon={<IconAdjustmentsHorizontal size={SIDEBAR_ICON_SIZE} />}

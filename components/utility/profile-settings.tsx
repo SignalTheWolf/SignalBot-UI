@@ -43,6 +43,7 @@ import { TextareaAutosize } from "../ui/textarea-autosize"
 import { WithTooltip } from "../ui/with-tooltip"
 import { ThemeSwitcher } from "./theme-switcher"
 
+
 interface ProfileSettingsProps {}
 
 export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
@@ -320,16 +321,6 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           <SheetHeader>
             <SheetTitle className="flex items-center justify-between space-x-2">
               <div>User Settings</div>
-
-              <Button
-                tabIndex={-1}
-                className="text-xs"
-                size="sm"
-                onClick={handleSignOut}
-              >
-                <IconLogout className="mr-1" size={20} />
-                Logout
-              </Button>
             </SheetTitle>
           </SheetHeader>
 
@@ -430,6 +421,17 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   limit={PROFILE_CONTEXT_MAX}
                 />
               </div>
+
+              <Button
+                tabIndex={1}
+                className="text-lg"
+                size="lg"
+                onClick={handleSignOut}
+              >
+                <IconLogout className="mr-1" size={40} />
+                Logout / Reset Password
+              </Button>
+              
             </TabsContent>
 
             <TabsContent className="mt-4 space-y-4" value="keys">

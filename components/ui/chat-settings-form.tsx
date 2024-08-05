@@ -81,9 +81,9 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
             showTooltip={showTooltip}
           />
         </div>
-      )}
+      )} */
     </div>
-  ) */
+  )
 }
  
 interface AdvancedContentProps {

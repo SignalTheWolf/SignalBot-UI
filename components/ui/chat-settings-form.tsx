@@ -6,7 +6,7 @@ import { ChatSettings } from "@/types"
 import { IconInfoCircle } from "@tabler/icons-react"
 import { FC, useContext } from "react"
 import { ModelSelect } from "../models/model-select"
-import { AdvancedSettings } from "./advanced-settings"
+/* import { AdvancedSettings } from "./advanced-settings" */
 import { Checkbox } from "./checkbox"
 import { Label } from "./label"
 import {

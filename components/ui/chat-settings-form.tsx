@@ -50,7 +50,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         />
       </div>
 
-      <div className="space-y-1">
+    {/* <div className="space-y-1">
         <Label>Prompt</Label>
 
         <TextareaAutosize
@@ -83,9 +83,9 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         </div>
       )}
     </div>
-  )
+  ) */
 }
-
+ 
 interface AdvancedContentProps {
   chatSettings: ChatSettings
   onChangeChatSettings: (value: ChatSettings) => void

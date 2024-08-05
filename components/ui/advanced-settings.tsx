@@ -1,3 +1,4 @@
+/*
 import {
   Collapsible,
   CollapsibleContent,
@@ -38,3 +39,4 @@ export const AdvancedSettings: FC<AdvancedSettingsProps> = ({ children }) => {
     </Collapsible>
   )
 }
+*/

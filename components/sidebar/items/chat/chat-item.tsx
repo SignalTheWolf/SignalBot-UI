@@ -11,7 +11,6 @@ import { useParams, useRouter } from "next/navigation"
 import { FC, useContext, useRef } from "react"
 import { DeleteChat } from "./delete-chat"
 import { UpdateChat } from "./update-chat"
-import { DeleteAllChats } from "./delete-all"  // Import the DeleteAllChats component
 
 interface ChatItemProps {
   chat: Tables<"chats">
@@ -105,8 +104,6 @@ export const ChatItem: FC<ChatItemProps> = ({ chat }) => {
         <UpdateChat chat={chat} />
 
         <DeleteChat chat={chat} />
-        
-        <DeleteAllChats />  {/* Add the DeleteAllChats button */}
       </div>
     </div>
   )

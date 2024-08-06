@@ -7,6 +7,7 @@ import { TabsContent } from "../ui/tabs"
 import { WorkspaceSwitcher } from "../utility/workspace-switcher"
 import { WorkspaceSettings } from "../workspace/workspace-settings"
 import { SidebarContent } from "./sidebar-content"
+import { DeleteAllChats } from "./items/chat/delete-all" // Import the DeleteAllChats component
 
 interface SidebarProps {
   contentType: ContentType
@@ -70,13 +71,21 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
         {(() => {
           switch (contentType) {
             case "chats":
-              return renderSidebarContent("chats", chats, chatFolders)
+              return (
+                <>
+                  {renderSidebarContent("chats", chats, chatFolders)}
+                  <div className="mt-4">
+                    <DeleteAllChats />
+                  </div>
+                </>
+              )
 
             case "presets":
               return renderSidebarContent("presets", presets, presetFolders)
 
             case "prompts":
               return renderSidebarContent("prompts", prompts, promptFolders)
+
             case "files":
               return renderSidebarContent("files", files, filesFolders)
 

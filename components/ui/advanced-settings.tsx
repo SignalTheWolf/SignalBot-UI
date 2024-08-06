@@ -12,6 +12,10 @@ interface AdvancedSettingsProps {
   children: React.ReactNode
 }
 
+interface Profile {
+  isAdmin: boolean;
+}
+
 export const AdvancedSettings: FC<AdvancedSettingsProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(true)

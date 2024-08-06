@@ -7,6 +7,7 @@ import { IconInfoCircle } from "@tabler/icons-react"
 import { FC, useContext } from "react"
 import { ModelSelect } from "../models/model-select"
 import { AdvancedSettings } from "./advanced-settings"
+import { Checkbox } from "./checkbox"
 import { Label } from "./label"
 import {
   Select,
@@ -49,7 +50,6 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         />
       </div>
 
-      {
       <div className="space-y-1">
         <Label>Prompt</Label>
 
@@ -64,9 +64,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
           maxRows={6}
         />
       </div>
-      }
 
-      {
       {useAdvancedDropdown ? (
         <AdvancedSettings>
           <AdvancedContent
@@ -84,7 +82,6 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
           />
         </div>
       )}
-      }
     </div>
   )
 }

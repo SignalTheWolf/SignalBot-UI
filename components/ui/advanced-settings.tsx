@@ -1,5 +1,5 @@
 import { FC, useEffect, useState, useContext } from "react"
-import { supabase } from "@/lib/supabase/browser-client" // Adjust the import based on your file structure
+import { supabase } from "@/lib/supabase/browser-client" //Supabase location
 import { ChatbotUIContext } from "@/context/context" // The user context needed to view the database in Supabase
 import {
   Collapsible,
@@ -25,6 +25,7 @@ export const AdvancedSettings: FC<AdvancedSettingsProps> = ({ children }) => {
   useEffect(() => {
     const fetchUserRole = async () => {
       if (profile) {
+        setLoading(true)
         const { data, error } = await supabase
           .from('profiles')
           .select('isAdmin')
@@ -38,12 +39,12 @@ export const AdvancedSettings: FC<AdvancedSettingsProps> = ({ children }) => {
         } else {
           console.error('Error: isAdmin property is missing in the returned data.')
         }
+        setLoading(false)
       }
     }
 
     fetchUserRole()
   }, [profile])
-
 
   const handleOpenChange = (isOpen: boolean) => {
     setIsOpen(isOpen)

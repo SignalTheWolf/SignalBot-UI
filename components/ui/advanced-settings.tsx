@@ -1,24 +1,59 @@
+import { FC, useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase/browser-client" // Adjust the import based on your file structure
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger
 } from "@/components/ui/collapsible"
 import { IconChevronDown, IconChevronRight } from "@tabler/icons-react"
-import { FC, useState } from "react"
 
 interface AdvancedSettingsProps {
   children: React.ReactNode
 }
 
 export const AdvancedSettings: FC<AdvancedSettingsProps> = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(
-    false
-    // localStorage.getItem("advanced-settings-open") === "true"
-  )
+  const [isOpen, setIsOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const user = supabase.auth.user()
+        if (user) {
+          const { data, error } = await supabase
+            .from("profiles")
+            .select("isAdmin")
+            .eq("id", user.id)
+            .single()
+
+          if (error) {
+            throw error
+          }
+
+          setIsAdmin(data.isAdmin)
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProfile()
+  }, [])
 
   const handleOpenChange = (isOpen: boolean) => {
     setIsOpen(isOpen)
     // localStorage.setItem("advanced-settings-open", String(isOpen))
+  }
+
+  if (loading) {
+    return null // or a loading spinner
+  }
+
+  if (!isAdmin) {
+    return null
   }
 
   return (

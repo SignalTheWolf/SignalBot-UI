@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase/browser-client" // Adjust the import based on your file structure
+import { ChatbotUIContext } from "@/context/context" // The user context needed to view the database in Supabase
 import {
   Collapsible,
   CollapsibleContent,
@@ -13,35 +14,32 @@ interface AdvancedSettingsProps {
 
 export const AdvancedSettings: FC<AdvancedSettingsProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const { profile } = useContext(ChatbotUIContext)
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const user = supabase.auth.user()
-        if (user) {
-          const { data, error } = await supabase
-            .from("profiles")
-            .select("isAdmin")
-            .eq("id", user.id)
-            .single()
+    const fetchUserRole = async () => {
+      if (profile) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('isAdmin')
+          .eq('id', profile.id)
+          .single()
 
-          if (error) {
-            throw error
-          }
-
-          setIsAdmin(data.isAdmin)
+        if (error) {
+          console.error('Error fetching user role:', error.message)
+        } else if (data && 'isAdmin' in data) {
+          setIsAdmin((data as Profile).isAdmin)
+        } else {
+          console.error('Error: isAdmin property is missing in the returned data.')
         }
-      } catch (error) {
-        console.error("Error fetching profile:", error)
-      } finally {
-        setLoading(false)
       }
     }
 
-    fetchProfile()
-  }, [])
+    fetchUserRole()
+  }, [profile])
+
 
   const handleOpenChange = (isOpen: boolean) => {
     setIsOpen(isOpen)

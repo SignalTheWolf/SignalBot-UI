@@ -156,7 +156,7 @@ export default function WorkspaceLayout({ children }: WorkspaceLayoutProps) {
     const modelData = await getModelWorkspacesByWorkspaceId(workspaceId)
     setModels(modelData.models)
 
-     /* setChatSettings({
+     setChatSettings({
       model: (searchParams.get("model") ||
         workspace?.default_model ||
         "gpt-4-1106-preview") as LLMID,
@@ -170,7 +170,7 @@ export default function WorkspaceLayout({ children }: WorkspaceLayoutProps) {
         workspace?.include_workspace_instructions || true,
       embeddingsProvider:
         (workspace?.embeddings_provider as "openai" | "local") || "openai"
-    }) */
+    }) 
 
     setLoading(false)
   }

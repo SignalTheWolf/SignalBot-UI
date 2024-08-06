@@ -6,8 +6,7 @@ import { ChatSettings } from "@/types"
 import { IconInfoCircle } from "@tabler/icons-react"
 import { FC, useContext } from "react"
 import { ModelSelect } from "../models/model-select"
-/* import { AdvancedSettings } from "./advanced-settings" */ //commenting out this import for the advanced settings drop down.
-import { Checkbox } from "./checkbox"
+import { AdvancedSettings } from "./advanced-settings"
 import { Label } from "./label"
 import {
   Select,
@@ -50,8 +49,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
         />
       </div>
 
-      {/* Commenting out the Prompt box */}
-      {/*
+      {
       <div className="space-y-1">
         <Label>Prompt</Label>
 
@@ -66,10 +64,9 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
           maxRows={6}
         />
       </div>
-      */}
+      }
 
-      {/* Commenting out the advanced settings dropdown */}
-      {/*
+      {
       {useAdvancedDropdown ? (
         <AdvancedSettings>
           <AdvancedContent
@@ -87,7 +84,7 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
           />
         </div>
       )}
-      */}
+      }
     </div>
   )
 }

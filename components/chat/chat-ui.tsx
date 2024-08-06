@@ -18,6 +18,7 @@ import { ChatInput } from "./chat-input"
 import { ChatMessages } from "./chat-messages"
 import { ChatScrollButtons } from "./chat-scroll-buttons"
 import { ChatSecondaryButtons } from "./chat-secondary-buttons"
+import { DeleteAllChats } from "@/components/DeleteAllChats"
 
 interface ChatUIProps {}
 
@@ -120,7 +121,7 @@ export const ChatUI: FC<ChatUIProps> = ({}) => {
     const messageFileItems = await Promise.all(messageFileItemPromises)
 
     const uniqueFileItems = messageFileItems.flatMap(item => item.file_items)
-    setChatFileItems(uniqueFileItems)
+    setChatFileItems(uniqueFileFileItems)
 
     const chatFiles = await getChatFilesByChatId(params.chatid as string)
 
@@ -224,6 +225,10 @@ export const ChatUI: FC<ChatUIProps> = ({}) => {
 
       <div className="absolute bottom-2 right-2 hidden md:block lg:bottom-4 lg:right-4">
         <ChatHelp />
+      </div>
+      
+      <div className="absolute bottom-4 right-4">
+        <DeleteAllChats />
       </div>
     </div>
   )

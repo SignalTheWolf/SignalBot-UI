@@ -18,7 +18,6 @@ import { ChatInput } from "./chat-input"
 import { ChatMessages } from "./chat-messages"
 import { ChatScrollButtons } from "./chat-scroll-buttons"
 import { ChatSecondaryButtons } from "./chat-secondary-buttons"
-import { DeleteAllChats } from "@/components/sidebar/items/chat/delete-all"
 
 interface ChatUIProps {}
 
@@ -225,10 +224,6 @@ export const ChatUI: FC<ChatUIProps> = ({}) => {
 
       <div className="absolute bottom-2 right-2 hidden md:block lg:bottom-4 lg:right-4">
         <ChatHelp />
-      </div>
-      
-      <div className="absolute bottom-4 right-4">
-        <DeleteAllChats />
       </div>
     </div>
   )

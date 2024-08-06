@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useState, useContext } from "react"
 import { supabase } from "@/lib/supabase/browser-client" // Adjust the import based on your file structure
 import { ChatbotUIContext } from "@/context/context" // The user context needed to view the database in Supabase
 import {

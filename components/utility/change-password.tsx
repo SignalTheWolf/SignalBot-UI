@@ -18,18 +18,38 @@ interface ChangePasswordProps {}
 
 export const ChangePassword: FC<ChangePasswordProps> = () => {
   const router = useRouter()
-
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleResetPassword = async () => {
-    if (!newPassword) return toast.info("Please enter your new password.")
+    if (!newPassword || !confirmPassword) {
+      return toast.info("Please fill in all password fields.")
+    }
 
-    await supabase.auth.updateUser({ password: newPassword })
+    if (newPassword !== confirmPassword) {
+      return toast.error("Passwords do not match. Please try again.")
+    }
 
-    toast.success("Password changed successfully.")
+    setIsLoading(true)
 
-    return router.push("/login")
+    try {
+      const { error } = await supabase.auth.updateUser({ password: newPassword })
+
+      if (error) {
+        console.error("Error updating password:", error)
+        toast.error("Failed to change password. Please try again.")
+        return
+      }
+
+      toast.success("Password changed successfully.")
+      router.push("/login")
+    } catch (error) {
+      console.error("Unexpected error:", error)
+      toast.error("An unexpected error occurred. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -56,7 +76,9 @@ export const ChangePassword: FC<ChangePasswordProps> = () => {
         />
 
         <DialogFooter>
-          <Button onClick={handleResetPassword}>Confirm Change</Button>
+          <Button onClick={handleResetPassword} disabled={isLoading}>
+            {isLoading ? "Processing..." : "Confirm Change"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

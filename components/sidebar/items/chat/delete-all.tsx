@@ -14,7 +14,11 @@ import { deleteChat } from "@/db/chats";
 import { IconTrash } from "@tabler/icons-react";
 import { FC, useContext, useRef, useState } from "react";
 
-export const DeleteAllChats: FC = () => {
+interface DeleteAllChatsProps {
+  className?: string;
+}
+
+export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
   const { setChats, chats } = useContext(ChatbotUIContext);
   const { handleNewChat } = useChatHandler();
 
@@ -44,7 +48,7 @@ export const DeleteAllChats: FC = () => {
       <DialogTrigger asChild>
         <Button
           variant="destructive"
-          className="w-full mt-auto px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700"
+          className={`w-full mt-auto px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 ${className}`}
         >
           Delete All Chats
         </Button>

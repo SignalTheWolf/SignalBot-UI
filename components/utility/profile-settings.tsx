@@ -730,47 +730,46 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           </Tabs>
         </div>
 
-        <div className="mt-6 flex items-center">
-          <div className="flex items-center space-x-1">
-            <ThemeSwitcher />
+        <div className="mt-6 flex flex-col h-full justify-between">
+          <div className="flex items-center">
+            <div className="flex items-center space-x-1">
+              <ThemeSwitcher />
 
-            <WithTooltip
-              display={
-                <div>
-                  Download Chatbot UI 1.0 data as JSON. Import coming soon!
-                </div>
-              }
-              trigger={
-                <IconFileDownload
-                  className="cursor-pointer hover:opacity-50"
-                  size={32}
-                  onClick={exportLocalStorageAsJSON}
-                />
-              }
-            />
-          </div>
+              <WithTooltip
+                display={
+                  <div>
+                    Download Chatbot UI 1.0 data as JSON. Import coming soon!
+                  </div>
+                }
+                trigger={
+                  <IconFileDownload
+                    className="cursor-pointer hover:opacity-50"
+                    size={32}
+                    onClick={exportLocalStorageAsJSON}
+                  />
+                }
+              />
+            </div>
 
-          <div className="ml-auto space-x-2">
-            <Button variant="ghost" onClick={() => setIsOpen(false)}>
-              Cancel
-            </Button>
+            <div className="ml-auto space-x-2">
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
 
-            <Button ref={buttonRef} onClick={handleSave}>
-              Save
-            </Button>
-
-          <div className="flex flex-col h-full justify-between">
-            {/* Other content in the sidebar */}
-
-            {/* Delete All Chats Button */}
-            <div className="flex items-center justify-center p-4">
-              <DeleteAllChats />
+              <Button ref={buttonRef} onClick={handleSave}>
+                Save
+              </Button>
             </div>
           </div>
 
-        
+          <div className="flex flex-col items-center justify-end h-full">
+            {/* Delete All Chats Button */}
+            <div className="w-full px-4">
+              <DeleteAllChats className="w-full" />
+            </div>
           </div>
         </div>
+
       </SheetContent>
     </Sheet>
   )

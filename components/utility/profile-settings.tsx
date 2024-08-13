@@ -759,11 +759,10 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               Save
             </Button>
 
-            {contentType === "chats" && (
           <div className="mt-4">
             <DeleteAllChats />
           </div>
-        )}
+        
           </div>
         </div>
       </SheetContent>

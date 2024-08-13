@@ -759,9 +759,15 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               Save
             </Button>
 
-          <div className="mt-4">
-            <DeleteAllChats />
+          <div className="flex flex-col h-full justify-between">
+            {/* Other content in the sidebar */}
+
+            {/* Delete All Chats Button */}
+            <div className="flex items-center justify-center p-4">
+              <DeleteAllChats />
+            </div>
           </div>
+
         
           </div>
         </div>

@@ -17,50 +17,53 @@ import { FC, useContext, useRef, useState } from "react";
 export const DeleteAllChats: FC = () => {
   const { setChats, chats } = useContext(ChatbotUIContext);
   const { handleNewChat } = useChatHandler();
-  
+
   const [showDialog, setShowDialog] = useState(false);
-  
+
   const buttonRef = useRef<HTMLButtonElement>(null);
-  
+
   const handleDeleteAllChats = async () => {
     const deletePromises = chats.map((chat) => deleteChat(chat.id));
     await Promise.all(deletePromises);
-    
+
     setChats([]);
-    
+
     setShowDialog(false);
-    
+
     handleNewChat();
   };
-  
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       buttonRef.current?.click();
     }
   };
-  
+
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
       <DialogTrigger asChild>
-        <Button variant="destructive" className="w-full">
+        <Button
+          variant="destructive"
+          className="w-full mt-auto px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700"
+        >
           Delete All Chats
         </Button>
       </DialogTrigger>
-      
+
       <DialogContent onKeyDown={handleKeyDown}>
         <DialogHeader>
           <DialogTitle>Delete All Chats</DialogTitle>
-          
+
           <DialogDescription>
             Are you sure you want to delete all chats? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
-        
+
         <DialogFooter>
           <Button variant="ghost" onClick={() => setShowDialog(false)}>
             Cancel
           </Button>
-          
+
           <Button
             ref={buttonRef}
             variant="destructive"

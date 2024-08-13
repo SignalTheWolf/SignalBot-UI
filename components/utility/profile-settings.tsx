@@ -429,7 +429,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                 size="lg"
                 onClick={handleSignOut}
               >
-                <IconLogout className="mr-1" size={30} />
+                <IconLogout className="flex items-center" size={30} />
                 Logout / Reset Password
               </Button>
               

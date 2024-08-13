@@ -7,7 +7,7 @@ import { TabsContent } from "../ui/tabs";
 import { WorkspaceSwitcher } from "../utility/workspace-switcher";
 import { WorkspaceSettings } from "../workspace/workspace-settings";
 import { SidebarContent } from "./sidebar-content";
-import { DeleteAllChats } from "./items/chat/delete-all"; // Import the DeleteAllChats component
+
 
 interface SidebarProps {
   contentType: ContentType;

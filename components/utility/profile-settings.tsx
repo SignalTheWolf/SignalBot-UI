@@ -42,6 +42,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { TextareaAutosize } from "../ui/textarea-autosize"
 import { WithTooltip } from "../ui/with-tooltip"
 import { ThemeSwitcher } from "./theme-switcher"
+import { DeleteAllChats } from "./items/chat/delete-all"; // Import the DeleteAllChats component
 
 
 interface ProfileSettingsProps {}

@@ -730,7 +730,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           </Tabs>
         </div>
 
-        <div className="mt-6 flex flex-col h-full">
+        <div className="flex flex-col h-full">
           {/* Container for the top content (Theme Switcher, Tooltip, Buttons) */}
           <div className="flex items-center p-4">
             <div className="flex items-center space-x-1">
@@ -767,10 +767,11 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           <div className="flex-grow"></div>
 
           {/* Delete All Chats Button, positioned at the bottom */}
-          <div className="w-full px-4 pb-4">
+          <div className="w-full px-4 pb-4 mt-auto">
             <DeleteAllChats className="w-full" />
           </div>
         </div>
+
 
 
       </SheetContent>

@@ -423,15 +423,17 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                 />
               </div>
 
-              <Button
-                tabIndex={1}
-                className="text-lg"
-                size="lg"
-                onClick={handleSignOut}
-              >
-                <IconLogout className="flex items-center" size={30} />
-                Logout / Reset Password
-              </Button>
+              <div className="flex justify-center">
+                <Button
+                  tabIndex={1}
+                  className="text-lg"
+                  size="lg"
+                  onClick={handleSignOut}
+                >
+                  <IconLogout className="flex items-center" size={30} />
+                  Logout / Reset Password
+                </Button>
+              </div>
               
             </TabsContent>
 

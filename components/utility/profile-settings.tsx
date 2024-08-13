@@ -730,8 +730,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           </Tabs>
         </div>
 
-        <div className="mt-6 flex flex-col h-full justify-between">
-          <div className="flex items-center">
+        <div className="mt-6 flex flex-col h-full">
+          {/* Container for the top content (Theme Switcher, Tooltip, Buttons) */}
+          <div className="flex items-center p-4">
             <div className="flex items-center space-x-1">
               <ThemeSwitcher />
 
@@ -762,13 +763,15 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-end h-full">
-            {/* Delete All Chats Button */}
-            <div className="w-full px-4">
-              <DeleteAllChats className="w-full" />
-            </div>
+          {/* Spacer to push the button to the bottom */}
+          <div className="flex-grow"></div>
+
+          {/* Delete All Chats Button, positioned at the bottom */}
+          <div className="w-full px-4 pb-4">
+            <DeleteAllChats className="w-full" />
           </div>
         </div>
+
 
       </SheetContent>
     </Sheet>

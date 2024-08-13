@@ -42,7 +42,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { TextareaAutosize } from "../ui/textarea-autosize"
 import { WithTooltip } from "../ui/with-tooltip"
 import { ThemeSwitcher } from "./theme-switcher"
-import { DeleteAllChats } from "../sidebar/items/chat/delete-all"; // Import the DeleteAllChats component
+import { DeleteAllChats } from "../sidebar/items/chat/delete-all"
 
 
 interface ProfileSettingsProps {}
@@ -730,50 +730,38 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           </Tabs>
         </div>
 
-        <div className="flex flex-col h-full">
-          {/* Container for the top content (Theme Switcher, Tooltip, Buttons) */}
-          <div className="flex items-center p-4">
-            <div className="flex items-center space-x-1">
-              <ThemeSwitcher />
+        <div className="mt-6 flex items-center">
+          <div className="flex items-center space-x-1">
+            <ThemeSwitcher />
 
-              <WithTooltip
-                display={
-                  <div>
-                    Download Chatbot UI 1.0 data as JSON. Import coming soon!
-                  </div>
-                }
-                trigger={
-                  <IconFileDownload
-                    className="cursor-pointer hover:opacity-50"
-                    size={32}
-                    onClick={exportLocalStorageAsJSON}
-                  />
-                }
-              />
-            </div>
-
-            <div className="ml-auto space-x-2">
-              <Button variant="ghost" onClick={() => setIsOpen(false)}>
-                Cancel
-              </Button>
-
-              <Button ref={buttonRef} onClick={handleSave}>
-                Save
-              </Button>
-            </div>
+            <WithTooltip
+              display={
+                <div>
+                  Download Chatbot UI 1.0 data as JSON. Import coming soon!
+                </div>
+              }
+              trigger={
+                <IconFileDownload
+                  className="cursor-pointer hover:opacity-50"
+                  size={32}
+                  onClick={exportLocalStorageAsJSON}
+                />
+              }
+            />
           </div>
 
-          {/* Spacer to push the button to the bottom */}
-          <div className="flex-grow"></div>
+          <div className="ml-auto space-x-2">
+            <Button variant="ghost" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
 
-          {/* Delete All Chats Button, positioned at the bottom */}
-          <div className="w-full px-4 pb-4 mt-auto">
-            <DeleteAllChats className="w-full" />
+            <Button ref={buttonRef} onClick={handleSave}>
+              Save
+            </Button>
           </div>
         </div>
 
-
-
+        <DeleteAllChats/>
       </SheetContent>
     </Sheet>
   )

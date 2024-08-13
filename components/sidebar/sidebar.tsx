@@ -98,12 +98,6 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
             }
           })()}
         </div>
-
-        {contentType === "chats" && (
-          <div className="mt-4">
-            <DeleteAllChats />
-          </div>
-        )}
       </div>
     </TabsContent>
   );

@@ -428,7 +428,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                 size="lg"
                 onClick={handleSignOut}
               >
-                <IconLogout className="mr-1" size={40} />
+                <IconLogout className="mr-1" size={30} />
                 Logout / Reset Password
               </Button>
               
@@ -757,6 +757,12 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
             <Button ref={buttonRef} onClick={handleSave}>
               Save
             </Button>
+
+            {contentType === "chats" && (
+          <div className="mt-4">
+            <DeleteAllChats />
+          </div>
+        )}
           </div>
         </div>
       </SheetContent>

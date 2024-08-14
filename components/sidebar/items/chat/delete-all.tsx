@@ -33,7 +33,7 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
       const archivePromises = chats.map(async (chat) => {
         try {
           const archiveData = {
-            original_chat_id: chat.id,
+            chat_id: chat.id,
             user_id: chat.user_id,
             workspace_id: chat.workspace_id,
             assistant_id: chat.assistant_id,

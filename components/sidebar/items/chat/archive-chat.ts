@@ -4,7 +4,7 @@ import { Chat } from "@/types/chat"
 export const archiveChat = async (chat: Chat): Promise<void> => {
   try {
     const { error } = await supabase.from("archived_chats").insert({
-      original_chat_id: chat.id,
+      chat_id: chat.id,
       user_id: chat.user_id,
       workspace_id: chat.workspace_id,
       assistant_id: chat.assistant_id,

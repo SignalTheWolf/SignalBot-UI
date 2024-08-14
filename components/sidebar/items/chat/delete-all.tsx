@@ -1,3 +1,4 @@
+// In DeleteAllChats.tsx or your component file
 import { useChatHandler } from "@/components/chat/chat-hooks/use-chat-handler";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ChatbotUIContext } from "@/context/context";
-import { deleteChat } from "@/db/chats";
+import { deleteChat, archiveChat } from "@/db/chats"; // Import the new archiveChat function
 import { FC, useContext, useRef, useState } from "react";
 
 interface DeleteAllChatsProps {
@@ -26,14 +27,26 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleDeleteAllChats = async () => {
-    const deletePromises = chats.map((chat) => deleteChat(chat.id));
-    await Promise.all(deletePromises);
+    try {
+      // Archive all chats before deleting
+      const archivePromises = chats.map((chat) => archiveChat(chat));
+      await Promise.all(archivePromises);
 
-    setChats([]);
+      // Delete all chats
+      const deletePromises = chats.map((chat) => deleteChat(chat.id));
+      await Promise.all(deletePromises);
 
-    setShowDialog(false);
+      // Clear chats from state
+      setChats([]);
 
-    handleNewChat();
+      // Close the dialog
+      setShowDialog(false);
+
+      // Start a new chat session
+      handleNewChat();
+    } catch (error) {
+      console.error("Error archiving or deleting chats:", error);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {

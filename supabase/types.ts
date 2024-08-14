@@ -1821,3 +1821,21 @@ export type Enums<
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never
 
+export type Chat = {
+  id: string
+  user_id: string
+  workspace_id: string
+  assistant_id: string
+  folder_id: string
+  created_at: string
+  updated_at: string
+  sharing: boolean
+  context_length: number
+  embeddings_provider: string
+  include_profile_context: boolean
+  include_workspace_instructions: boolean
+  model: string
+  name: string
+  prompt: string
+  temperature: number
+}

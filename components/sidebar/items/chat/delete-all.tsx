@@ -1,4 +1,3 @@
-// In DeleteAllChats.tsx or your component file
 import { useChatHandler } from "@/components/chat/chat-hooks/use-chat-handler";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,7 @@ import {
 import { ChatbotUIContext } from "@/context/context";
 import { deleteChat, archiveChat } from "@/db/chats"; // Import the new archiveChat function
 import { FC, useContext, useRef, useState } from "react";
+import { Chat } from "@/types/chat"; // Import the Chat type
 
 interface DeleteAllChatsProps {
   className?: string;
@@ -29,11 +29,11 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
   const handleDeleteAllChats = async () => {
     try {
       // Archive all chats before deleting
-      const archivePromises = chats.map((chat) => archiveChat(chat));
+      const archivePromises = chats.map((chat: Chat) => archiveChat(chat));
       await Promise.all(archivePromises);
 
       // Delete all chats
-      const deletePromises = chats.map((chat) => deleteChat(chat.id));
+      const deletePromises = chats.map((chat: Chat) => deleteChat(chat.id));
       await Promise.all(deletePromises);
 
       // Clear chats from state

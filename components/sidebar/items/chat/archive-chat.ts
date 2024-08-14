@@ -1,9 +1,9 @@
 import { supabase } from "@/lib/supabase/browser-client" // path to Supabase client
+import { Chat } from "@/types/chat"
 
-// Function to archive a single chat
 export const archiveChat = async (chat: Chat): Promise<void> => {
   try {
-    const { error } = await supabase.from('archived_chats').insert({
+    const { error } = await supabase.from("archived_chats").insert({
       original_chat_id: chat.id,
       user_id: chat.user_id,
       workspace_id: chat.workspace_id,
@@ -19,16 +19,15 @@ export const archiveChat = async (chat: Chat): Promise<void> => {
       model: chat.model,
       name: chat.name,
       prompt: chat.prompt,
-      temperature: chat.temperature
-    });
+      temperature: chat.temperature,
+    })
 
     if (error) {
-      console.error(`Failed to archive chat with id ${chat.id}:`, error);
-      throw new Error(`Failed to archive chat with id ${chat.id}`);
+      console.error(`Failed to archive chat with id ${chat.id}:`, error)
+      throw new Error(`Failed to archive chat with id ${chat.id}`)
     }
-
   } catch (error) {
-    console.error('Error archiving chat:', error);
-    throw error;
+    console.error("Error archiving chat:", error)
+    throw error
   }
-};
+}

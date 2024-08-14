@@ -1,4 +1,4 @@
-import { supabase } from "@/utils/supabaseClient";
+import { supabase } from "@/lib/supabase/browser-client" // path to Supabase client
 
 // Function to archive a single chat
 export const archiveChat = async (chat: Chat): Promise<void> => {

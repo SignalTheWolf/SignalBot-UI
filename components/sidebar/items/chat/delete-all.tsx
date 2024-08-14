@@ -10,10 +10,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ChatbotUIContext } from "@/context/context";
-import { deleteChat } from "@/db/chats"; // No need to import archiveChat if we're using custom logic
+import { deleteChat, archiveChat } from "@/db/chats";
 import { FC, useContext, useRef, useState } from "react";
 import { Chat } from "@/types/chat";
-import { supabase } from "@/lib/supabase/browser-client";
+import { supabase } from "@/lib/supabase/browser-client"; // Ensure this import is correct
 
 interface DeleteAllChatsProps {
   className?: string;
@@ -32,6 +32,25 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
       // Archive all chats before deleting
       const archivePromises = chats.map(async (chat) => {
         try {
+          console.log("Archiving data:", {
+            original_chat_id: chat.id,
+            user_id: chat.user_id,
+            workspace_id: chat.workspace_id,
+            assistant_id: chat.assistant_id,
+            folder_id: chat.folder_id,
+            created_at: chat.created_at,
+            updated_at: chat.updated_at,
+            sharing: chat.sharing,
+            context_length: chat.context_length,
+            embeddings_provider: chat.embeddings_provider,
+            include_profile_context: chat.include_profile_context,
+            include_workspace_instructions: chat.include_workspace_instructions,
+            model: chat.model,
+            name: chat.name,
+            prompt: chat.prompt,
+            temperature: chat.temperature,
+          });
+
           const { error } = await supabase.from("archived_chats").insert({
             original_chat_id: chat.id,
             user_id: chat.user_id,
@@ -50,11 +69,12 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
             prompt: chat.prompt,
             temperature: chat.temperature,
           });
-          
+
           if (error) {
             console.error(`Failed to archive chat with id ${chat.id}:`, error);
             throw new Error(`Failed to archive chat with id ${chat.id}`);
           }
+          console.log(`Successfully archived chat with id ${chat.id}.`);
         } catch (archiveError) {
           console.error(`Error archiving chat with id ${chat.id}:`, archiveError);
           throw archiveError;
@@ -62,7 +82,6 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
       });
 
       await Promise.all(archivePromises);
-
       console.log("All chats archived successfully.");
 
       // Delete all chats from the original table
@@ -73,6 +92,7 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
             console.error(`Failed to delete chat with id ${chat.id}:`, error);
             throw new Error(`Failed to delete chat with id ${chat.id}`);
           }
+          console.log(`Successfully deleted chat with id ${chat.id}.`);
         } catch (deleteError) {
           console.error(`Error deleting chat with id ${chat.id}:`, deleteError);
           throw deleteError;
@@ -80,7 +100,6 @@ export const DeleteAllChats: FC<DeleteAllChatsProps> = ({ className }) => {
       });
 
       await Promise.all(deletePromises);
-
       console.log("All chats deleted successfully.");
 
       // Clear chats from state

@@ -1822,20 +1822,20 @@ export type Enums<
     : never
 
 export type Chat = {
-  id: string | null
-  user_id: string | null
-  workspace_id: string | null
-  assistant_id: string | null
-  folder_id: string | null
-  created_at: string | null
-  updated_at: string | null
-  sharing: boolean | null
-  context_length: number | null
-  embeddings_provider: string | null
-  include_profile_context: boolean | null
-  include_workspace_instructions: boolean | null
-  model: string | null
-  name: string | null
-  prompt: string | null
-  temperature: number | null
+  id: string // UUID, not nullable
+  user_id: string // UUID, not nullable
+  workspace_id: string // UUID, not nullable
+  assistant_id: string | null // UUID, nullable
+  folder_id: string | null // UUID, nullable
+  created_at: string // Timestamp with timezone, not nullable
+  updated_at: string | null // Timestamp with timezone, nullable
+  sharing: string // Text, not nullable
+  context_length: number // Integer, not nullable
+  embeddings_provider: string // Text, not nullable
+  include_profile_context: boolean // Boolean, not nullable
+  include_workspace_instructions: boolean // Boolean, not nullable
+  model: string // Text, not nullable
+  name: string // Text, not nullable
+  prompt: string // Text, not nullable
+  temperature: number // Float, not nullable
 }

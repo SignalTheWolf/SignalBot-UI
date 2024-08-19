@@ -44,6 +44,11 @@ import { WithTooltip } from "../ui/with-tooltip"
 import { ThemeSwitcher } from "./theme-switcher"
 import { DeleteAllChats } from "../sidebar/items/chat/delete-all"
 
+interface ProfileData {
+  isAdmin: boolean;
+  kioskApp: boolean;
+}
+
 interface ProfileSettingsProps {}
 
 export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
@@ -127,7 +132,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
       if (!profile?.id) return
 
       const { data: profileData, error } = await supabase
-        .from("profiles")
+        .from<ProfileData>("profiles")
         .select("isAdmin, kioskApp")
         .eq("id", profile.id)
         .single()

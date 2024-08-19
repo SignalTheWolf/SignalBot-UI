@@ -809,4 +809,4 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
       </SheetContent>
     </Sheet>
   );
-  
+}

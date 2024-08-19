@@ -127,7 +127,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
       if (!profile?.id) return
 
       const { data: profileData, error } = await supabase
-        .from("profiles")
+        .from("public.profiles")
         .select("isAdmin, kioskApp")
         .eq("id", profile.id)
         .single()

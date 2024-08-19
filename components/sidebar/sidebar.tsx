@@ -58,7 +58,6 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [kioskApp, setIsKioskApp] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchProfileStatus = async () => {
@@ -79,16 +78,10 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
 
       setIsAdmin(profileData?.isAdmin || false);
       setIsKioskApp(profileData?.kioskApp || false);
-      setIsLoading(false); // Mark loading as complete
     };
 
     fetchProfileStatus();
   }, [profile?.id]);
-
-  // Render nothing until loading is complete
-  if (isLoading) {
-    return null;
-  }
 
   return (
     <TabsContent

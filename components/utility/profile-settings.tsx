@@ -442,6 +442,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
               )}
               
+              {!kioskApp ? null: (
               <div className="space-y-1">
                 <Label className="text-sm">
                   What would you like the AI to know about you to provide better
@@ -461,6 +462,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   limit={PROFILE_CONTEXT_MAX}
                 />
               </div>
+              )}
 
               <div className="flex justify-center">
                 <Button

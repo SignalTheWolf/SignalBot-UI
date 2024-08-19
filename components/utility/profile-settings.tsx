@@ -779,6 +779,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           <div className="flex items-center space-x-1">
             <ThemeSwitcher />
 
+            {!isAdmin ? null: (
             <WithTooltip
               display={
                 <div>
@@ -793,8 +794,10 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                 />
               }
             />
+            )}
           </div>
 
+            {!isAdmin ? null: (
           <div className="ml-auto space-x-2">
             <Button variant="ghost" onClick={() => setIsOpen(false)}>
               Cancel
@@ -804,6 +807,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               Save
             </Button>
           </div>
+            )}
         </div>
 
         <DeleteAllChats/>

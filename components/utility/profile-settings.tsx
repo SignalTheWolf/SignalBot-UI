@@ -429,6 +429,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
               )}
 
+              {!isAdmin ? null : (
               <div className="space-y-1">
                 <Label>Chat Display Name</Label>
 
@@ -439,6 +440,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   maxLength={PROFILE_DISPLAY_NAME_MAX}
                 />
               </div>
+              )}
               
               <div className="space-y-1">
                 <Label className="text-sm">

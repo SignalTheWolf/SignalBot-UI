@@ -7,6 +7,7 @@ import { TabsContent } from "../ui/tabs";
 import { WorkspaceSwitcher } from "../utility/workspace-switcher";
 import { WorkspaceSettings } from "../workspace/workspace-settings";
 import { SidebarContent } from "./sidebar-content";
+import { supabase } from "@/lib/supabase/browser-client" // path to Supabase client
 
 interface ProfileData {
   isAdmin: boolean;
@@ -17,13 +18,6 @@ interface SidebarProps {
   contentType: ContentType;
   showSidebar: boolean;
 }
-
-interface ProfileSettingsProps {}
-
-export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
-  const {
-    profile,
-  } = useContext(ChatbotUIContext)
 
 export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
   const {
@@ -36,6 +30,7 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
     assistants,
     tools,
     models,
+    profile, // Ensure profile is included in context
   } = useContext(ChatbotUIContext);
 
   const chatFolders = folders.filter((folder) => folder.type === "chats");
@@ -61,32 +56,32 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
     );
   };
 
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [kioskApp, setIsKioskApp] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [kioskApp, setIsKioskApp] = useState(false);
 
   useEffect(() => {
     const fetchProfileStatus = async () => {
-      if (!profile?.id) return
+      if (!profile?.id) return;
 
       const { data, error } = await supabase
         .from("profiles")
         .select("isAdmin, kioskApp")
         .eq("id", profile.id)
-        .single()
+        .single();
 
       const profileData: ProfileData | null = data as ProfileData | null;
 
       if (error) {
-        console.error("Error fetching profile status:", error)
-        return
+        console.error("Error fetching profile status:", error);
+        return;
       }
 
-      setIsAdmin(profileData?.isAdmin || false)
-      setIsKioskApp(profileData?.kioskApp || false)
-    }
+      setIsAdmin(profileData?.isAdmin || false);
+      setIsKioskApp(profileData?.kioskApp || false);
+    };
 
-    fetchProfileStatus()
-  }, [profile?.id])
+    fetchProfileStatus();
+  }, [profile?.id]);
 
   return (
     <TabsContent
@@ -99,11 +94,11 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
       value={contentType}
     >
       <div className="flex h-full flex-col p-3">
-        {kioskApp ? null:(
-        <div className="flex items-center border-b-2 pb-2">
-          <WorkspaceSwitcher />
-          <WorkspaceSettings />
-        </div>
+        {!kioskApp && (
+          <div className="flex items-center border-b-2 pb-2">
+            <WorkspaceSwitcher />
+            <WorkspaceSettings />
+          </div>
         )}
 
         <div className="flex-grow">

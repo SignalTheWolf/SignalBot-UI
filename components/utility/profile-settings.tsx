@@ -357,128 +357,122 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           </SheetHeader>
   
           <Tabs defaultValue="profile">
-            {isAdmin && (
-              <TabsList className="mt-4 grid w-full grid-cols-2">
-                <TabsTrigger value="profile">Profile</TabsTrigger>
-                <TabsTrigger value="keys">API Keys</TabsTrigger>
-              </TabsList>
+            {!isAdmin ? null : (
+            <TabsList className="mt-4 grid w-full grid-cols-2">
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+              <TabsTrigger value="keys">API Keys</TabsTrigger>
+            </TabsList>
             )}
   
             <TabsContent className="mt-4 space-y-4" value="profile">
-              {isAdmin && (
-                <div className="space-y-1">
-                  <div className="flex items-center space-x-2">
-                    <Label>Username</Label>
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <Label>Username</Label>
   
-                    <div className="text-xs">
-                      {username !== profile.username ? (
-                        usernameAvailable ? (
-                          <div className="text-green-500">AVAILABLE</div>
-                        ) : (
-                          <div className="text-red-500">UNAVAILABLE</div>
-                        )
-                      ) : null}
-                    </div>
-                  </div>
-  
-                  <div className="relative">
-                    <Input
-                      className="pr-10"
-                      placeholder="Username..."
-                      value={username}
-                      onChange={e => {
-                        setUsername(e.target.value);
-                        checkUsernameAvailability(e.target.value);
-                      }}
-                      minLength={PROFILE_USERNAME_MIN}
-                      maxLength={PROFILE_USERNAME_MAX}
-                    />
-  
+                  <div className="text-xs">
                     {username !== profile.username ? (
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                        {loadingUsername ? (
-                          <IconLoader2 className="animate-spin" />
-                        ) : usernameAvailable ? (
-                          <IconCircleCheckFilled className="text-green-500" />
-                        ) : (
-                          <IconCircleXFilled className="text-red-500" />
-                        )}
-                      </div>
+                      usernameAvailable ? (
+                        <div className="text-green-500">AVAILABLE</div>
+                      ) : (
+                        <div className="text-red-500">UNAVAILABLE</div>
+                      )
                     ) : null}
                   </div>
-  
-                  <LimitDisplay
-                    used={username.length}
-                    limit={PROFILE_USERNAME_MAX}
-                  />
                 </div>
-              )}
   
-              {isAdmin && (
-                <div className="space-y-1">
-                  <Label>Profile Image</Label>
-  
-                  <ImagePicker
-                    src={profileImageSrc}
-                    image={profileImageFile}
-                    height={50}
-                    width={50}
-                    onSrcChange={setProfileImageSrc}
-                    onImageChange={setProfileImageFile}
-                  />
-                </div>
-              )}
-  
-              {isAdmin && (
-                <div className="space-y-1">
-                  <Label>Chat Display Name</Label>
-  
-                  <Input
-                    placeholder="Chat display name..."
-                    value={displayName}
-                    onChange={e => setDisplayName(e.target.value)}
-                    maxLength={PROFILE_DISPLAY_NAME_MAX}
-                  />
-                </div>
-              )}
-  
-              {isAdmin && (
-                <div className="space-y-1">
-                  <Label className="text-sm">
-                    What would you like the AI to know about you to provide better
-                    responses?
-                  </Label>
-  
-                  <TextareaAutosize
-                    value={profileInstructions}
-                    onValueChange={setProfileInstructions}
-                    placeholder="Profile context... (optional)"
-                    minRows={6}
-                    maxRows={10}
+                <div className="relative">
+                    <Input
+                    className="pr-10"
+                    placeholder="Username..."
+                    value={username}
+                    onChange={e => {
+                      setUsername(e.target.value);
+                      checkUsernameAvailability(e.target.value);
+                    }}
+                    minLength={PROFILE_USERNAME_MIN}
+                    maxLength={PROFILE_USERNAME_MAX}
                   />
   
-                  <LimitDisplay
-                    used={profileInstructions.length}
-                    limit={PROFILE_CONTEXT_MAX}
-                  />
+                  {username !== profile.username ? (
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                      {loadingUsername ? (
+                        <IconLoader2 className="animate-spin" />
+                      ) : usernameAvailable ? (
+                        <IconCircleCheckFilled className="text-green-500" />
+                      ) : (
+                        <IconCircleXFilled className="text-red-500" />
+                      )}
+                    </div>
+                  ) : null}
                 </div>
-              )}
   
-              {isAdmin && (
-                <div className="flex justify-center">
-                  <Button
-                    tabIndex={1}
-                    className="text-lg"
-                    size="lg"
-                    onClick={handleSignOut}
-                  >
-                    <IconLogout className="flex items-center" size={30} />
-                    Logout / Reset Password
-                  </Button>
-                </div>
+                <LimitDisplay
+                  used={username.length}
+                  limit={PROFILE_USERNAME_MAX}
+                />
+              </div>
+  
+              <div className="space-y-1">
+                <Label>Profile Image</Label>
+  
+                <ImagePicker
+                  src={profileImageSrc}
+                  image={profileImageFile}
+                  height={50}
+                  width={50}
+                  onSrcChange={setProfileImageSrc}
+                  onImageChange={setProfileImageFile}
+                />
+              </div>
+  
+              <div className="space-y-1">
+                <Label>Chat Display Name</Label>
+  
+                <Input
+                  placeholder="Chat display name..."
+                  value={displayName}
+                  onChange={e => setDisplayName(e.target.value)}
+                  maxLength={PROFILE_DISPLAY_NAME_MAX}
+                />
+              </div>
+  
+              {!isKioskUser && (
+                <>
+                  <div className="space-y-1">
+                    <Label className="text-sm">
+                      What would you like the AI to know about you to provide better responses?
+                    </Label>
+  
+                    <TextareaAutosize
+                      value={profileInstructions}
+                      onValueChange={setProfileInstructions}
+                      placeholder="Profile context... (optional)"
+                      minRows={6}
+                      maxRows={10}
+                    />
+  
+                    <LimitDisplay
+                      used={profileInstructions.length}
+                      limit={PROFILE_CONTEXT_MAX}
+                    />
+                  </div>
+  
+                  <div className="flex justify-center">
+                    <Button
+                      tabIndex={1}
+                      className="text-lg"
+                      size="lg"
+                      onClick={handleSignOut}
+                    >
+                      <IconLogout className="flex items-center" size={30} />
+                      Logout / Reset Password
+                    </Button>
+                  </div>
+                </>
               )}
             </TabsContent>
   
+            <TabsContent className="mt-4 space-y-4" value="keys">
             <TabsContent className="mt-4 space-y-4" value="keys">
               <div className="mt-5 space-y-2">
                 <Label className="flex items-center">
@@ -809,4 +803,4 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
       </SheetContent>
     </Sheet>
   );
-}
+  

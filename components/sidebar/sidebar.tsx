@@ -1,18 +1,29 @@
 import { ChatbotUIContext } from "@/context/context";
 import { Tables } from "@/supabase/types";
 import { ContentType } from "@/types";
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { SIDEBAR_WIDTH } from "../ui/dashboard";
 import { TabsContent } from "../ui/tabs";
 import { WorkspaceSwitcher } from "../utility/workspace-switcher";
 import { WorkspaceSettings } from "../workspace/workspace-settings";
 import { SidebarContent } from "./sidebar-content";
 
+interface ProfileData {
+  isAdmin: boolean;
+  kioskApp: boolean;
+}
 
 interface SidebarProps {
   contentType: ContentType;
   showSidebar: boolean;
 }
+
+interface ProfileSettingsProps {}
+
+export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
+  const {
+    profile,
+  } = useContext(ChatbotUIContext)
 
 export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
   const {
@@ -50,6 +61,33 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
     );
   };
 
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [kioskApp, setIsKioskApp] = useState(false)
+
+  useEffect(() => {
+    const fetchProfileStatus = async () => {
+      if (!profile?.id) return
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("isAdmin, kioskApp")
+        .eq("id", profile.id)
+        .single()
+
+      const profileData: ProfileData | null = data as ProfileData | null;
+
+      if (error) {
+        console.error("Error fetching profile status:", error)
+        return
+      }
+
+      setIsAdmin(profileData?.isAdmin || false)
+      setIsKioskApp(profileData?.kioskApp || false)
+    }
+
+    fetchProfileStatus()
+  }, [profile?.id])
+
   return (
     <TabsContent
       className="m-0 w-full space-y-2"
@@ -61,10 +99,12 @@ export const Sidebar: FC<SidebarProps> = ({ contentType, showSidebar }) => {
       value={contentType}
     >
       <div className="flex h-full flex-col p-3">
+        {kioskApp ? null:(
         <div className="flex items-center border-b-2 pb-2">
           <WorkspaceSwitcher />
           <WorkspaceSettings />
         </div>
+        )}
 
         <div className="flex-grow">
           {(() => {

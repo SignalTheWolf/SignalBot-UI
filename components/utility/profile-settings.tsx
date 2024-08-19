@@ -44,39 +44,30 @@ import { WithTooltip } from "../ui/with-tooltip"
 import { ThemeSwitcher } from "./theme-switcher"
 import { DeleteAllChats } from "../sidebar/items/chat/delete-all"
 
+const [isAdmin, setIsAdmin] = useState(false)
+const [isKioskApp, setIsKioskApp] = useState(false)
 
-interface Profile {
-  isAdmin: boolean;
-  kioskApp: boolean;
-}
+useEffect(() => {
+  const fetchProfileStatus = async () => {
+    const { data: profileData, error } = await supabase
+      .from("profiles")
+      .select("isAdmin, kioskApp")
+      .eq("id", profile?.id)
+      .single()
 
-const ProfileSettings = () => {
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [kioskApp, setKioskApp] = useState(false)
-  const { profile } = useContext(ChatbotUIContext)
-
-  useEffect(() => {
-    const fetchUserRoleAndKioskApp = async () => {
-      if (profile) {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('isAdmin, kioskApp')
-          .eq('id', profile.id)
-          .single()
-
-        if (error) {
-          console.error('Error fetching user role and kioskApp state:', error.message)
-        } else if (data) {
-          setIsAdmin(data.isAdmin)
-          setKioskApp(data.kioskApp)
-        } else {
-          console.error('Error: isAdmin or kioskApp property is missing in the returned data.')
-        }
-      }
+    if (error) {
+      console.error("Error fetching profile status:", error)
+      return
     }
 
-    fetchUserRoleAndKioskApp()
-  }, [profile])
+    setIsAdmin(profileData?.isAdmin || false)
+    setIsKioskApp(profileData?.kioskApp || false)
+  }
+
+  if (profile?.id) {
+    fetchProfileStatus()
+  }
+}, [profile?.id])
 
 interface ProfileSettingsProps {}
 
@@ -358,12 +349,13 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
             </SheetTitle>
           </SheetHeader>
 
-          {isAdmin && (
-            <Tabs defaultValue="profile">
+          <Tabs defaultValue="profile">
+            {!isAdmin ? null : (
             <TabsList className="mt-4 grid w-full grid-cols-2">
               <TabsTrigger value="profile">Profile</TabsTrigger>
               <TabsTrigger value="keys">API Keys</TabsTrigger>
             </TabsList>
+            )}
 
             <TabsContent className="mt-4 space-y-4" value="profile">
               <div className="space-y-1">
@@ -436,7 +428,6 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   maxLength={PROFILE_DISPLAY_NAME_MAX}
                 />
               </div>
-          )}
 
               <div className="space-y-1">
                 <Label className="text-sm">

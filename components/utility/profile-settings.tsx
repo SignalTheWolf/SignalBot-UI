@@ -797,7 +797,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
             )}
           </div>
 
-            {!isAdmin ? null: (
+            {kioskApp ? null: (
           <div className="ml-auto space-x-2">
             <Button variant="ghost" onClick={() => setIsOpen(false)}>
               Cancel

@@ -44,31 +44,6 @@ import { WithTooltip } from "../ui/with-tooltip"
 import { ThemeSwitcher } from "./theme-switcher"
 import { DeleteAllChats } from "../sidebar/items/chat/delete-all"
 
-const [isAdmin, setIsAdmin] = useState(false)
-const [isKioskApp, setIsKioskApp] = useState(false)
-
-useEffect(() => {
-  const fetchProfileStatus = async () => {
-    const { data: profileData, error } = await supabase
-      .from("profiles")
-      .select("isAdmin, kioskApp")
-      .eq("id", profile?.id)
-      .single()
-
-    if (error) {
-      console.error("Error fetching profile status:", error)
-      return
-    }
-
-    setIsAdmin(profileData?.isAdmin || false)
-    setIsKioskApp(profileData?.kioskApp || false)
-  }
-
-  if (profile?.id) {
-    fetchProfileStatus()
-  }
-}, [profile?.id])
-
 interface ProfileSettingsProps {}
 
 export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
@@ -143,6 +118,31 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
   const [openrouterAPIKey, setOpenrouterAPIKey] = useState(
     profile?.openrouter_api_key || ""
   )
+
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [kioskApp, setIsKioskApp] = useState(false)
+
+  useEffect(() => {
+    const fetchProfileStatus = async () => {
+      if (!profile?.id) return
+
+      const { data: profileData, error } = await supabase
+        .from("profiles")
+        .select("isAdmin, kioskApp")
+        .eq("id", profile.id)
+        .single()
+
+      if (error) {
+        console.error("Error fetching profile status:", error)
+        return
+      }
+
+      setIsAdmin(profileData?.isAdmin || false)
+      setIsKioskApp(profileData?.kioskApp || false)
+    }
+
+    fetchProfileStatus()
+  }, [profile?.id])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()

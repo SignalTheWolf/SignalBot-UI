@@ -131,11 +131,13 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
     const fetchProfileStatus = async () => {
       if (!profile?.id) return
 
-      const { data: profileData, error } = await supabase
-        .from<ProfileData>("profiles")
+      const { data, error } = await supabase
+        .from("profiles")
         .select("isAdmin, kioskApp")
         .eq("id", profile.id)
         .single()
+
+      const profileData: ProfileData | null = data as ProfileData | null;
 
       if (error) {
         console.error("Error fetching profile status:", error)

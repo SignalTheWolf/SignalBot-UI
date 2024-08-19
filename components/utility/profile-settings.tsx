@@ -436,7 +436,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                 />
               </div>
   
-              {!isKioskUser && (
+              {!kioskApp && (
                 <>
                   <div className="space-y-1">
                     <Label className="text-sm">

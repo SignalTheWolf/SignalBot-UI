@@ -512,5 +512,5 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
         <DeleteAllChats/>
       </SheetContent>
     </Sheet>
-  );
-  
+  )
+}

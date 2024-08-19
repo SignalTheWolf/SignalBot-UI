@@ -464,6 +464,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               </div>
               )}
 
+              {kioskApp ? null: (
               <div className="flex justify-center">
                 <Button
                   tabIndex={1}
@@ -475,6 +476,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
                   Logout / Reset Password
                 </Button>
               </div>
+              )}
               
             </TabsContent>
 

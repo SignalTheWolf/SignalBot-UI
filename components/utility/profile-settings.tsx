@@ -44,6 +44,7 @@ import { WithTooltip } from "../ui/with-tooltip"
 import { ThemeSwitcher } from "./theme-switcher"
 import { DeleteAllChats } from "../sidebar/items/chat/delete-all"
 
+
 interface Profile {
   isAdmin: boolean;
   kioskApp: boolean;
@@ -350,93 +351,92 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
         side="left"
         onKeyDown={handleKeyDown}
       >
-        
-        {isAdmin && (
-          <Tabs defaultValue="profile">
-          <TabsList className="mt-4 grid w-full grid-cols-2">
-            <TabsTrigger value="profile">Profile</TabsTrigger>
-            <TabsTrigger value="keys">API Keys</TabsTrigger>
-          </TabsList>
-
-          <TabsContent className="mt-4 space-y-4" value="profile">
-            <div className="space-y-1">
-              <div className="flex items-center space-x-2">
-                <Label>Username</Label>
-
-                <div className="text-xs">
-                  {username !== profile.username ? (
-                    usernameAvailable ? (
-                      <div className="text-green-500">AVAILABLE</div>
-                    ) : (
-                      <div className="text-red-500">UNAVAILABLE</div>
-                    )
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="relative">
-                <Input
-                  className="pr-10"
-                  placeholder="Username..."
-                  value={username}
-                  onChange={e => {
-                    setUsername(e.target.value)
-                    checkUsernameAvailability(e.target.value)
-                  }}
-                  minLength={PROFILE_USERNAME_MIN}
-                  maxLength={PROFILE_USERNAME_MAX}
-                />
-
-                {username !== profile.username ? (
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                    {loadingUsername ? (
-                      <IconLoader2 className="animate-spin" />
-                    ) : usernameAvailable ? (
-                      <IconCircleCheckFilled className="text-green-500" />
-                    ) : (
-                      <IconCircleXFilled className="text-red-500" />
-                    )}
-                  </div>
-                ) : null}
-              </div>
-
-              <LimitDisplay
-                used={username.length}
-                limit={PROFILE_USERNAME_MAX}
-              />
-            </div>
-
-            <div className="space-y-1">
-              <Label>Profile Image</Label>
-
-              <ImagePicker
-                src={profileImageSrc}
-                image={profileImageFile}
-                height={50}
-                width={50}
-                onSrcChange={setProfileImageSrc}
-                onImageChange={setProfileImageFile}
-              />
-            </div>
-
-            <div className="space-y-1">
-              <Label>Chat Display Name</Label>
-
-              <Input
-                placeholder="Chat display name..."
-                value={displayName}
-                onChange={e => setDisplayName(e.target.value)}
-                maxLength={PROFILE_DISPLAY_NAME_MAX}
-              />
-            </div>
-        )}
-
         <div className="grow overflow-auto">
           <SheetHeader>
             <SheetTitle className="flex items-center justify-between space-x-2">
               <div>User Settings</div>
             </SheetTitle>
           </SheetHeader>
+
+          {isAdmin && (
+            <Tabs defaultValue="profile">
+            <TabsList className="mt-4 grid w-full grid-cols-2">
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+              <TabsTrigger value="keys">API Keys</TabsTrigger>
+            </TabsList>
+
+            <TabsContent className="mt-4 space-y-4" value="profile">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <Label>Username</Label>
+
+                  <div className="text-xs">
+                    {username !== profile.username ? (
+                      usernameAvailable ? (
+                        <div className="text-green-500">AVAILABLE</div>
+                      ) : (
+                        <div className="text-red-500">UNAVAILABLE</div>
+                      )
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <Input
+                    className="pr-10"
+                    placeholder="Username..."
+                    value={username}
+                    onChange={e => {
+                      setUsername(e.target.value)
+                      checkUsernameAvailability(e.target.value)
+                    }}
+                    minLength={PROFILE_USERNAME_MIN}
+                    maxLength={PROFILE_USERNAME_MAX}
+                  />
+
+                  {username !== profile.username ? (
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                      {loadingUsername ? (
+                        <IconLoader2 className="animate-spin" />
+                      ) : usernameAvailable ? (
+                        <IconCircleCheckFilled className="text-green-500" />
+                      ) : (
+                        <IconCircleXFilled className="text-red-500" />
+                      )}
+                    </div>
+                  ) : null}
+                </div>
+
+                <LimitDisplay
+                  used={username.length}
+                  limit={PROFILE_USERNAME_MAX}
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label>Profile Image</Label>
+
+                <ImagePicker
+                  src={profileImageSrc}
+                  image={profileImageFile}
+                  height={50}
+                  width={50}
+                  onSrcChange={setProfileImageSrc}
+                  onImageChange={setProfileImageFile}
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label>Chat Display Name</Label>
+
+                <Input
+                  placeholder="Chat display name..."
+                  value={displayName}
+                  onChange={e => setDisplayName(e.target.value)}
+                  maxLength={PROFILE_DISPLAY_NAME_MAX}
+                />
+              </div>
+          )}
 
               <div className="space-y-1">
                 <Label className="text-sm">

@@ -324,7 +324,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
     }
   }
 
-  if (!profile) return null
+  if (!profile) return null;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -343,7 +343,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
           </Button>
         )}
       </SheetTrigger>
-
+  
       <SheetContent
         className="flex flex-col justify-between"
         side="left"
@@ -355,123 +355,130 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               <div>User Settings</div>
             </SheetTitle>
           </SheetHeader>
-
+  
           <Tabs defaultValue="profile">
-            {!isAdmin ? null : (
-            <TabsList className="mt-4 grid w-full grid-cols-2">
-              <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="keys">API Keys</TabsTrigger>
-            </TabsList>
+            {isAdmin && (
+              <TabsList className="mt-4 grid w-full grid-cols-2">
+                <TabsTrigger value="profile">Profile</TabsTrigger>
+                <TabsTrigger value="keys">API Keys</TabsTrigger>
+              </TabsList>
             )}
-
+  
             <TabsContent className="mt-4 space-y-4" value="profile">
-              <div className="space-y-1">
-                <div className="flex items-center space-x-2">
-                  <Label>Username</Label>
-
-                  <div className="text-xs">
+              {isAdmin && (
+                <div className="space-y-1">
+                  <div className="flex items-center space-x-2">
+                    <Label>Username</Label>
+  
+                    <div className="text-xs">
+                      {username !== profile.username ? (
+                        usernameAvailable ? (
+                          <div className="text-green-500">AVAILABLE</div>
+                        ) : (
+                          <div className="text-red-500">UNAVAILABLE</div>
+                        )
+                      ) : null}
+                    </div>
+                  </div>
+  
+                  <div className="relative">
+                    <Input
+                      className="pr-10"
+                      placeholder="Username..."
+                      value={username}
+                      onChange={e => {
+                        setUsername(e.target.value);
+                        checkUsernameAvailability(e.target.value);
+                      }}
+                      minLength={PROFILE_USERNAME_MIN}
+                      maxLength={PROFILE_USERNAME_MAX}
+                    />
+  
                     {username !== profile.username ? (
-                      usernameAvailable ? (
-                        <div className="text-green-500">AVAILABLE</div>
-                      ) : (
-                        <div className="text-red-500">UNAVAILABLE</div>
-                      )
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                        {loadingUsername ? (
+                          <IconLoader2 className="animate-spin" />
+                        ) : usernameAvailable ? (
+                          <IconCircleCheckFilled className="text-green-500" />
+                        ) : (
+                          <IconCircleXFilled className="text-red-500" />
+                        )}
+                      </div>
                     ) : null}
                   </div>
-                </div>
-
-                <div className="relative">
-                  {!isAdmin ? null : (
-                    <Input
-                    className="pr-10"
-                    placeholder="Username..."
-                    value={username}
-                    onChange={e => {
-                      setUsername(e.target.value)
-                      checkUsernameAvailability(e.target.value)
-                    }}
-                    minLength={PROFILE_USERNAME_MIN}
-                    maxLength={PROFILE_USERNAME_MAX}
+  
+                  <LimitDisplay
+                    used={username.length}
+                    limit={PROFILE_USERNAME_MAX}
                   />
-                  )}
-
-                  {username !== profile.username ? (
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                      {loadingUsername ? (
-                        <IconLoader2 className="animate-spin" />
-                      ) : usernameAvailable ? (
-                        <IconCircleCheckFilled className="text-green-500" />
-                      ) : (
-                        <IconCircleXFilled className="text-red-500" />
-                      )}
-                    </div>
-                  ) : null}
                 </div>
-
-                <LimitDisplay
-                  used={username.length}
-                  limit={PROFILE_USERNAME_MAX}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <Label>Profile Image</Label>
-
-                <ImagePicker
-                  src={profileImageSrc}
-                  image={profileImageFile}
-                  height={50}
-                  width={50}
-                  onSrcChange={setProfileImageSrc}
-                  onImageChange={setProfileImageFile}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <Label>Chat Display Name</Label>
-
-                <Input
-                  placeholder="Chat display name..."
-                  value={displayName}
-                  onChange={e => setDisplayName(e.target.value)}
-                  maxLength={PROFILE_DISPLAY_NAME_MAX}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <Label className="text-sm">
-                  What would you like the AI to know about you to provide better
-                  responses?
-                </Label>
-
-                <TextareaAutosize
-                  value={profileInstructions}
-                  onValueChange={setProfileInstructions}
-                  placeholder="Profile context... (optional)"
-                  minRows={6}
-                  maxRows={10}
-                />
-
-                <LimitDisplay
-                  used={profileInstructions.length}
-                  limit={PROFILE_CONTEXT_MAX}
-                />
-              </div>
-
-              <div className="flex justify-center">
-                <Button
-                  tabIndex={1}
-                  className="text-lg"
-                  size="lg"
-                  onClick={handleSignOut}
-                >
-                  <IconLogout className="flex items-center" size={30} />
-                  Logout / Reset Password
-                </Button>
-              </div>
-              
+              )}
+  
+              {isAdmin && (
+                <div className="space-y-1">
+                  <Label>Profile Image</Label>
+  
+                  <ImagePicker
+                    src={profileImageSrc}
+                    image={profileImageFile}
+                    height={50}
+                    width={50}
+                    onSrcChange={setProfileImageSrc}
+                    onImageChange={setProfileImageFile}
+                  />
+                </div>
+              )}
+  
+              {isAdmin && (
+                <div className="space-y-1">
+                  <Label>Chat Display Name</Label>
+  
+                  <Input
+                    placeholder="Chat display name..."
+                    value={displayName}
+                    onChange={e => setDisplayName(e.target.value)}
+                    maxLength={PROFILE_DISPLAY_NAME_MAX}
+                  />
+                </div>
+              )}
+  
+              {isAdmin && (
+                <div className="space-y-1">
+                  <Label className="text-sm">
+                    What would you like the AI to know about you to provide better
+                    responses?
+                  </Label>
+  
+                  <TextareaAutosize
+                    value={profileInstructions}
+                    onValueChange={setProfileInstructions}
+                    placeholder="Profile context... (optional)"
+                    minRows={6}
+                    maxRows={10}
+                  />
+  
+                  <LimitDisplay
+                    used={profileInstructions.length}
+                    limit={PROFILE_CONTEXT_MAX}
+                  />
+                </div>
+              )}
+  
+              {isAdmin && (
+                <div className="flex justify-center">
+                  <Button
+                    tabIndex={1}
+                    className="text-lg"
+                    size="lg"
+                    onClick={handleSignOut}
+                  >
+                    <IconLogout className="flex items-center" size={30} />
+                    Logout / Reset Password
+                  </Button>
+                </div>
+              )}
             </TabsContent>
-
+  
             <TabsContent className="mt-4 space-y-4" value="keys">
               <div className="mt-5 space-y-2">
                 <Label className="flex items-center">
@@ -766,11 +773,11 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
             </TabsContent>
           </Tabs>
         </div>
-
+  
         <div className="mt-6 flex items-center">
           <div className="flex items-center space-x-1">
             <ThemeSwitcher />
-
+  
             <WithTooltip
               display={
                 <div>
@@ -786,20 +793,20 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
               }
             />
           </div>
-
+  
           <div className="ml-auto space-x-2">
             <Button variant="ghost" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
-
+  
             <Button ref={buttonRef} onClick={handleSave}>
               Save
             </Button>
           </div>
         </div>
-
+  
         <DeleteAllChats/>
       </SheetContent>
     </Sheet>
-  )
-}
+  );
+  

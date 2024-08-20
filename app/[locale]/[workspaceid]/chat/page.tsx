@@ -30,9 +30,10 @@ export default function ChatPage() {
 
   const { theme } = useTheme()
 
+  const { profile } = useContext(ChatbotUIContext)
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [kioskApp, setIsKioskApp] = useState(false);
-  const [profile] = useContext(ChatbotUIContext);
 
   useEffect(() => {
     const fetchProfileStatus = async () => {
@@ -66,7 +67,7 @@ export default function ChatPage() {
             <Brand theme={theme === "dark" ? "dark" : "light"} />
           </div>
 
-          {kioskApp ? null: (
+          {!isAdmin ? null: (
           <div className="absolute left-2 top-2">
             <QuickSettings />
           </div>

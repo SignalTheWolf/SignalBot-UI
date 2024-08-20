@@ -10,7 +10,13 @@ import { Brand } from "@/components/ui/brand"
 import { ChatbotUIContext } from "@/context/context"
 import useHotkey from "@/lib/hooks/use-hotkey"
 import { useTheme } from "next-themes"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase/browser-client" // path to Supabase client
+
+interface ProfileData {
+  isAdmin: boolean;
+  kioskApp: boolean;
+}
 
 export default function ChatPage() {
   useHotkey("o", () => handleNewChat())
@@ -24,6 +30,34 @@ export default function ChatPage() {
 
   const { theme } = useTheme()
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [kioskApp, setIsKioskApp] = useState(false);
+  const [profile] = useContext(ChatbotUIContext);
+
+  useEffect(() => {
+    const fetchProfileStatus = async () => {
+      if (!profile?.id) return;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("isAdmin, kioskApp")
+        .eq("id", profile.id)
+        .single();
+
+      const profileData: ProfileData | null = data as ProfileData | null;
+
+      if (error) {
+        console.error("Error fetching profile status:", error);
+        return;
+      }
+
+      setIsAdmin(profileData?.isAdmin || false);
+      setIsKioskApp(profileData?.kioskApp || false);
+    };
+
+    fetchProfileStatus();
+  }, [profile?.id]);
+
   return (
     <>
       {chatMessages.length === 0 ? (
@@ -32,13 +66,17 @@ export default function ChatPage() {
             <Brand theme={theme === "dark" ? "dark" : "light"} />
           </div>
 
+          {kioskApp ? null: (
           <div className="absolute left-2 top-2">
             <QuickSettings />
           </div>
+          )}
 
+          {kioskApp ? null: (
           <div className="absolute right-2 top-2">
             <ChatSettings />
           </div>
+          )}
 
           <div className="flex grow flex-col items-center justify-center" />
 

@@ -4,7 +4,7 @@ import { ChatbotUIContext } from "@/context/context"
 import { CHAT_SETTING_LIMITS } from "@/lib/chat-setting-limits"
 import { ChatSettings } from "@/types"
 import { IconInfoCircle } from "@tabler/icons-react"
-import { FC, useContext } from "react"
+import { FC, useContext, useEffect, useState } from "react"
 import { ModelSelect } from "../models/model-select"
 import { AdvancedSettings } from "./advanced-settings"
 import { Checkbox } from "./checkbox"
@@ -20,6 +20,13 @@ import { Slider } from "./slider"
 import { TextareaAutosize } from "./textarea-autosize"
 import { WithTooltip } from "./with-tooltip"
 
+import { supabase } from "@/lib/supabase/browser-client"; // path to Supabase client
+
+interface ProfileData {
+  isAdmin: boolean;
+  kioskApp: boolean;
+}
+
 interface ChatSettingsFormProps {
   chatSettings: ChatSettings
   onChangeChatSettings: (value: ChatSettings) => void
@@ -34,6 +41,33 @@ export const ChatSettingsForm: FC<ChatSettingsFormProps> = ({
   showTooltip = true
 }) => {
   const { profile, models } = useContext(ChatbotUIContext)
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [kioskApp, setIsKioskApp] = useState(false);
+
+  useEffect(() => {
+    const fetchProfileStatus = async () => {
+      if (!profile?.id) return;
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("isAdmin, kioskApp")
+        .eq("id", profile.id)
+        .single();
+
+      const profileData: ProfileData | null = data as ProfileData | null;
+
+      if (error) {
+        console.error("Error fetching profile status:", error);
+        return;
+      }
+
+      setIsAdmin(profileData?.isAdmin || false);
+      setIsKioskApp(profileData?.kioskApp || false);
+    };
+
+    fetchProfileStatus();
+  }, [profile?.id]);
 
   if (!profile) return null
 
